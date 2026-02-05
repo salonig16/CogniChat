@@ -20,11 +20,9 @@ router.post("/test", async(req,res) =>{
     }
 });
 
-//Get all threads
 router.get("/thread", async(req, res) =>{
     try{
-      const threads = (await Thread.find({})).sort({updatedAt: -1}); // will simply get all the threads
-      //descending order of updatedAt - most recent data on top
+      const threads = (await Thread.find({})).sort({updatedAt: -1});
       res.json(threads);
     } catch(err){
         console.log(err);
@@ -32,13 +30,12 @@ router.get("/thread", async(req, res) =>{
     }
 });
 
-//route to send particular thread on based on threadId
 router.get("/thread/:threadId", async(req, res) =>{
     const {threadId} = req.params;
 
      try{
-        const thread = await Thread.findOne({threadId}); //geting one id
-        if(!thread){ //if id dont exist
+        const thread = await Thread.findOne({threadId}); 
+        if(!thread){ 
             res.status(404).json({error: "Thread not found"});
         }
         res.json(thread.messages);
@@ -48,7 +45,6 @@ router.get("/thread/:threadId", async(req, res) =>{
      }
 });
 
-//delete 
 router.delete("/thread/threadId", async(req, res)=>{
     const {threadId} = req.params;
 
@@ -72,22 +68,21 @@ router.post("/chat", async(req, res) => {
     }
     try{
        let thread = await Thread.findOne({threadId});
-       if(!thread){ //if thread dont exist
-          //create a new thread in db
+       if(!thread){ 
           thread = new Thread({
             threadId,
             title: message,
             messages: [{role: "user", content: message}]
           });
        } else{
-         thread.messages.push({role: "user", content: message}); //message is store if thread exist
+         thread.messages.push({role: "user", content: message}); 
        }
 
-       const assistantReply = await getOpenAIAPIResponse(message); // getting response from openai
-       thread.messages.push({role: "assistant", content: assistantReply}); //reply from assistant is store
-       thread.updatedAt = new Date(); //date is updated of chat
-       await thread.save(); //save to db
-       res.json({reply: assistantReply}); //send to frontend
+       const assistantReply = await getOpenAIAPIResponse(message); 
+       thread.messages.push({role: "assistant", content: assistantReply});
+       thread.updatedAt = new Date(); 
+       await thread.save(); 
+       res.json({reply: assistantReply}); 
 
     }catch(err){
        console.log(err);
