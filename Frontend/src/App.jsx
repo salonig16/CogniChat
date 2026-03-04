@@ -6,12 +6,12 @@ import {useState} from 'react';
 import {v1 as uuidv1} from "uuid";
 
 function App() {
-  const [prompt, setPrompt] = useState(""); //prompt msg from user
-  const [reply, setReply] = useState(null); //reply from back end
+  const [prompt, setPrompt] = useState(""); 
+  const [reply, setReply] = useState(null); 
   const [currThreadId, setCurrThreadId] = useState(uuidv1());
-  const [prevChats, setPrevChats] = useState([]); //stores all chats of curr threads
-  const [newChat, setNewChat] = useState(true); //tracks if the new chat is created
-  const [allThreads, setAllThreads] = useState([]); // store all threads history 
+  const [prevChats, setPrevChats] = useState([]); 
+  const [newChat, setNewChat] = useState(true); 
+  const [allThreads, setAllThreads] = useState([]); 
 
   const providerValues ={
     prompt, setPrompt,
@@ -20,7 +20,7 @@ function App() {
     newChat, setNewChat,
     prevChats, setPrevChats,
     allThreads, setAllThreads,
-  };  //object which has passing values from MyContext statevariable
+  };  
   return (
     <div className='app'>
       <MyContext.Provider value = {providerValues}>
