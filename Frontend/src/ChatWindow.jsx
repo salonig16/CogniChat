@@ -7,7 +7,7 @@ import {ScaleLoader} from "react-spinners";
 function ChatWindow(){
     const {prompt , setPrompt, reply, setReply, currThreadId, prevChats, setPrevChats, setNewChat} = useContext(MyContext);
     const [loading, setLoading] = useState(false);
-    const [isOpen,setIsOpen] = useState(false); //drpdown effect on user symbol
+    const [isOpen,setIsOpen] = useState(false); 
 
     const getReply = async ()=>{
       setLoading(true);
@@ -28,14 +28,13 @@ function ChatWindow(){
           const response = await fetch("http://localhost:8080/api/chat", options);
           const rep = await response.json();
           console.log(rep);
-          setReply(rep.reply); //prompt reply set to new val
+          setReply(rep.reply);
       } catch(err){
         console.log(err);
       }
       setLoading(false);
     }
 
-    //append new chat to prevchat
     useEffect(()=>{
        if(prompt && reply){
         setPrevChats(prevChats =>(
