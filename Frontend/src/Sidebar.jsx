@@ -20,14 +20,14 @@ function Sidebar(){
     }
   };
 
-  useEffect(() =>{ //thread ko change ya new chat create krte time threadId change hoti so will call getAllThread func
+  useEffect(() =>{ 
     getAllThreads();
   }, [currThreadId])
 
-  const createNewChat = () =>{ //creating new chat
+  const createNewChat = () =>{
     setNewChat(true);
     setPrompt("");
-    setReply(null); //backends data is coming in form of object
+    setReply(null); 
     setCurrThreadId(uuidv1());
     setPrevChats([]);
   }
@@ -52,8 +52,7 @@ function Sidebar(){
       const response =  await fetch(`http://localhost:8080/api/thread/${threadId}`, {method: "DELETE"});
       const res = await response.json();
       console.log(res);
-
-      //updated thread re-render after deleting chat hume page refresh na krna pade
+      
       setAllThreads(prev => prev.filter(thread => thread.threadId !== threadId));
 
       if(threadId === currThreadId){
@@ -67,13 +66,11 @@ function Sidebar(){
 
    return(
     <section className="sidebar">
-       {/* new chat button */}
        <button onClick={createNewChat}>
          <img src="src/assets/blacklogo.png" alt="GPT logo" className="logo"></img>
          <span><i className="fa-solid fa-pen-to-square"></i></span>
        </button>
 
-       {/* /history */}
         <ul className="history">
           {/* displaying our chat title  */}
           {
@@ -84,7 +81,7 @@ function Sidebar(){
               >{thread.title}
                <i className="fa-solid fa-trash"
                    onClick={(e) =>{
-                      e.stopPropagation(); //stop event bubbling- child element(button) pr kuch event triggr krna h pr vo parent element(list) pr bhi ho rha h 
+                      e.stopPropagation(); 
                       deleteThread(thread.threadId);
                    }}
                ></i>
